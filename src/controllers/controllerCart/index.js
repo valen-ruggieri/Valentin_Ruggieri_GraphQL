@@ -13,55 +13,50 @@ const {
 const { searchProductById } = require("../../Repository/productsRepository");
 const { searchUserById } = require("../../Repository/usersRepository");
 
-const getCart = async (req, res) => {
-  const sessionData = await searchUserById(req.session.passport.user);
-  const cart = await searchCart(req.session.passport.user);
-  res.render("cart.ejs", {
-    sessionData,
-    precioTotal: cart ? cart.precioTotal : 0,
-    productos: cart ? cart.products : [],
-  });
+const getCart = async (id) => {
+  const cart = await searchCart(id);
+  return cart;
 };
 
-const addproduct = async (req, res) => {
-  const id = req.params.id;
-  const product = await searchProductById(id);
-  const cartInBase = await searchCart(req.session.passport.user);
-  const products = await searchProducts(req.session.passport.user);
+const addproductInCart = async (idUser, idProduct) => {
+  const product = await searchProductById(idProduct);
+  const cartInBase = await searchCart(idUser);
+  const products = await searchProducts(idUser);
   const index = findIndexProduct(products, product);
   const cartItems = addInCart(products, index, product);
   const precioTotal = calculateTotalPrice(cartItems);
-  await reloadCart(precioTotal, cartItems, cartInBase);
-  res.redirect("/store");
+  const cartInfo = await reloadCart(precioTotal, cartItems, cartInBase);
+  return cartInfo;
 };
 
-const deleteproduct = async (req, res) => {
-  const id = req.params.id;
-  const product = await searchProductById(id);
-  const cartInBase = await searchCart(req.session.passport.user);
-  const products = await searchProducts(req.session.passport.user);
+const deleteProductInCart = async (idUser, idProduct) => {
+  const product = await searchProductById(idProduct);
+  const cartInBase = await searchCart(idUser);
+  const products = await searchProducts(idUser);
   const index = findIndexProduct(products, product);
   const cartItems = deleteInCart(products, index, product);
   const precioTotal = calculateTotalPrice(cartItems);
-  await reloadCart(precioTotal, cartItems, cartInBase);
-  res.redirect("/cart");
+  const cartInfo = await reloadCart(precioTotal, cartItems, cartInBase);
+  return cartInfo;
 };
 
-const deleteAll = async (req, res) => {
-  const cartInBase = await searchCart(req.session.passport.user);
-  await deleteAllCart(cartInBase);
-  res.redirect("/cart");
+const deleteAll = async (idUser) => {
+  const cartInBase = await searchCart(idUser);
+  const cartInfo = await deleteAllCart(cartInBase);
+  return cartInfo;
 };
 
-const buyAll = async (req, res) => {
-  const { email, user, phone } = await searchUserById(
-    req.session.passport.user
-  );
-  const { products, precioTotal } = await searchCart(req.session.passport.user);
+const buyAll = async (idUser) => {
+  const { email, user, phone } = await searchUserById(idUser);
+  const { products, precioTotal } = await searchCart(idUser);
   sendToWsp(products, precioTotal, user, phone);
-  sendMailTicket(products, precioTotal, email, user);
-
-  res.redirect("/cart");
+  return sendMailTicket(products, precioTotal, email, user);
 };
 
-module.exports = { getCart, addproduct, deleteproduct, deleteAll, buyAll };
+module.exports = {
+  getCart,
+  addproductInCart,
+  deleteProductInCart,
+  deleteAll,
+  buyAll,
+};

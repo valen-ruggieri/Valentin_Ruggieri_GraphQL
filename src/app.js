@@ -9,7 +9,6 @@ const routerSignIn = require("./routes/routerSignIn/routerSignIn");
 const routerLogIn = require("./routes/routerLogin/routerLogIn");
 const routerLogOut = require("./routes/routerLogOut/routerLogOut");
 const routerAccount = require("./routes/routerAccount/routerAccount");
-const routerCart = require("./routes/routerCart/routerCart");
 const session = require("express-session");
 const MongoStore = require("connect-mongo");
 const passport = require("passport");
@@ -60,7 +59,6 @@ app.use("/", routerSignIn);
 app.use("/", routerLogOut);
 app.use("/", routerError);
 app.use("/", routerAccount);
-app.use("/", routerCart);
 app.use('/graphql', graphqlHTTP({
   schema:schema,
 graphiql:true

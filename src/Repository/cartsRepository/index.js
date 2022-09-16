@@ -35,7 +35,8 @@ const searchCartById = async (id) => {
 
 const updateCartById = async (id, data) => {
   try {
-    await cartsDao.updateById(id, data);
+   const cart =  await cartsDao.updateById(id, data);
+   return cart
   } catch (error) {
     logger.error(error);
   }

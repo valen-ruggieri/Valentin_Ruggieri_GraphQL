@@ -6,8 +6,7 @@ const twilioAccount = twilio(
   `${process.env.TWILIO_TOKEN}`
 );
 
-
-const sendToWsp = async (querysnapshot,precioTotal,user,phone) => {
+const sendToWsp = async (querysnapshot, precioTotal, user, phone) => {
   const listWsp = querysnapshot.map(
     (e, index) =>
       `
@@ -19,7 +18,8 @@ const sendToWsp = async (querysnapshot,precioTotal,user,phone) => {
           codigo: ${e.codigo}
           subtotal: $${e.precio * e.cant}
           
-          `);
+          `
+  );
 
   twilioAccount.messages
     .create({
@@ -35,7 +35,7 @@ const sendToWsp = async (querysnapshot,precioTotal,user,phone) => {
       from: "whatsapp:+14155238886",
       to: `whatsapp:+549${phone}`,
     })
-    .then(() => logger.info("enviado"))
+    .then((res) => logger.info("enviado"))
     .catch((err) => logger.warn(err));
 };
 module.exports = sendToWsp;

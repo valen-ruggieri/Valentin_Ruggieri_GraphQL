@@ -54,7 +54,9 @@ const sendMailTicket = async (querysnapshot, precioTotal, email, user) => {
        `,
   };
 
-  await transporter.sendMail(mailOptions);
+  await transporter.sendMail(mailOptions)
+  return mailOptions.html
+    
 };
 
 module.exports = { sendMailTicket, sendMailWelcome };

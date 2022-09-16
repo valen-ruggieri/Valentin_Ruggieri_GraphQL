@@ -67,7 +67,8 @@ async function reloadCart(precioTotal, products, cart) {
     products: products,
   };
 
-  await updateCartById(cart._id, { ...data });
+ const cartUpdate =  await updateCartById(cart._id, { ...data });
+ return cartUpdate
 }
 
 async function deleteAllCart(cart) {
@@ -78,7 +79,8 @@ async function deleteAllCart(cart) {
     timestamp: timestamp,
     products: [],
   };
-  await updateCartById(cart._id, { ...data });
+  const deleteCart = await updateCartById(cart._id, { ...data });
+  return deleteCart
 }
 
 module.exports = {
