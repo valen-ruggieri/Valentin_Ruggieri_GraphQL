@@ -1,5 +1,5 @@
 {
-  "name": "valentin_ruggieri_cookies_and_session",
+  "name": "valentin_ruggieri_graphql",
   "version": "1.0.0",
   "type": "commonjs",
   "description": "",
@@ -11,7 +11,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/valen-ruggieri/Valentin_Ruggieri_Cookies_And_Session.git"
+    "url": "git+https://github.com/valen-ruggieri/Valentin_Ruggieri_GraphQL.git"
   },
   "author": "",
   "license": "ISC",
@@ -29,7 +29,10 @@
     "dotenv": "^16.0.1",
     "ejs": "^3.1.8",
     "express": "^4.18.1",
+    "express-graphql": "^0.12.0",
     "express-session": "^1.17.3",
+    "graphql": "^15.3.0",
+    "graphql-tools": "^8.3.6",
     "jsonwebtoken": "^8.5.1",
     "log4js": "^6.6.1",
     "mongoose": "^6.4.3",

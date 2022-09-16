@@ -1,11 +1,11 @@
 require("dotenv").config();
 const express = require("express");
 const app = express();
+const {graphqlHTTP} =require('express-graphql')
 const path = require("path");
 const routerHome = require("./routes/routerHome/routerHome");
 const routerError = require("./routes/routerError/routerError");
 const routerSignIn = require("./routes/routerSignIn/routerSignIn");
-const routerStore = require("./routes/routerStore/routerStore");
 const routerLogIn = require("./routes/routerLogin/routerLogIn");
 const routerLogOut = require("./routes/routerLogOut/routerLogOut");
 const routerAccount = require("./routes/routerAccount/routerAccount");
@@ -14,6 +14,7 @@ const session = require("express-session");
 const MongoStore = require("connect-mongo");
 const passport = require("passport");
 const multer = require("multer");
+const schema = require("./utils/graphQL/schema");
 
 const storageContent = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -54,12 +55,15 @@ app.use(express.json());
 app.set("views", path.join(__dirname + "/public/views"));
 app.set("view engine", "ejs");
 app.use("/", routerHome);
-app.use("/", routerStore);
 app.use("/", routerLogIn);
 app.use("/", routerSignIn);
 app.use("/", routerLogOut);
 app.use("/", routerError);
 app.use("/", routerAccount);
 app.use("/", routerCart);
+app.use('/graphql', graphqlHTTP({
+  schema:schema,
+graphiql:true
+}))
 
 module.exports = app;

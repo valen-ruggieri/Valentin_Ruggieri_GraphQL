@@ -8,42 +8,29 @@ const { searchUserById } = require("../../Repository/usersRepository");
 
 const productoConfig = require("../../services/servicesProducts");
 
-const getStore = async (req, res) => {
-  const sessionData = await searchUserById(req.session.passport.user);
+const getStore = async () => {
   const productos = await getAllProducts();
-  res.render("store.ejs", { sessionData, productos });
+  return productos;
 };
 
-const getUpdateForm = async (req, res) => {
-  res.render("updateFormProducts.ejs");
+const deleteProduct = async (id) => {
+  const productDelete = await deleteProductById(id);
+  return productDelete;
 };
 
-const getAddForm = async (req, res) => {
-  res.render("formAddProducts.ejs");
+const postAddProduct = async (body) => {
+  const product = productoConfig(body);
+  const productCreate = await createProduct(product);
+  return productCreate;
 };
 
-const deleteProduct = async (req, res) => {
-  const id = req.params.id;
-  await deleteProductById(id);
-  res.redirect("/store");
-};
-
-const postAddProduct = async (req, res) => {
-  const product = productoConfig(req);
-  await createProduct(product);
-  res.redirect("/store");
-};
-
-const postUpdateProduct = async (req, res) => {
-  const id = req.params.id;
-  const product = productoConfig(req);
-  await updateProductById(id, product);
-  res.redirect("/store");
+const postUpdateProduct = async (id, body) => {
+  const product = productoConfig(body);
+  const productUpdate = await updateProductById(id, product);
+  return productUpdate;
 };
 
 module.exports = {
-  getAddForm,
-  getUpdateForm,
   getStore,
   postAddProduct,
   postUpdateProduct,

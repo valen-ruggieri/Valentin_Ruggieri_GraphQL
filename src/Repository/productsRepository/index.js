@@ -2,8 +2,9 @@ const productsDao = require("../../Factorys/productsFactory");
 const logger = require("../../utils/loggers/loggers");
 
 const createProduct = async (data) => {
-  try { 
-    await productsDao.create({ ...data });
+  try {
+    const product = await productsDao.create({ ...data });
+    return product;
   } catch (error) {
     logger.error(error);
   }
@@ -12,6 +13,7 @@ const createProduct = async (data) => {
 const deleteProductById = async (id) => {
   try {
     await productsDao.deleteById(id);
+    return id;
   } catch (error) {
     logger.error(error);
   }
@@ -35,7 +37,8 @@ const searchProductById = async (id) => {
 
 const updateProductById = async (id, data) => {
   try {
-    productsDao.updateById(id, { ...data });
+    const product = productsDao.updateById(id, { ...data });
+    return product;
   } catch (error) {
     logger.error(error);
   }

@@ -1,9 +1,9 @@
 const logger = require("../../utils/loggers/loggers");
 
-const productoConfig = (req) => {
+const productoConfig = (body) => {
   try {
-    const { titulo, precio, descripcion, codigo } = req.body;
-    const img = req.file.filename;
+    const { titulo, precio, descripcion, codigo } = body;
+    const img = body.img;
     const precioFormat = Number(precio);
     const date = new Date();
     const timestamp = ` ${date.getDay()}/ ${date.getMonth()}/${date.getFullYear()} - ${date.getHours()}: ${date.getMinutes()}: ${date.getSeconds()}`;

@@ -52,6 +52,7 @@ class MongoDBClass {
   async deleteById(id) {
     try {
       const one = await this.collection.findById(id).deleteOne();
+      return one
     } catch (error) {
       logger.error(error);
     }
@@ -67,6 +68,7 @@ class MongoDBClass {
   async updateById(id, doc) {
     try {
       const one = await this.collection.findByIdAndUpdate(id, doc);
+      return one
     } catch (error) {
        logger.error(error);
     }

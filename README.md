@@ -1,11 +1,10 @@
-# Desafio API mejorada
+# Desafio Gra
 
 ## Inicio
-En este desaio realizaremos la tercer entrega del proyecto final en el cual tendremos registros mediante passport, mensajeria con nodemailer y twilio, 
-profiling con artillery, loggers con log4js, activacion de cluster y deploy en heroku.
-Ademas tambien conjunto al desafio de arquitectura por capas el cual sera realizado en este mismo, refactorizaremos todo el codigo y dividiremos en capas
-para mejorar el entendimiento del mismo y cada parte funcional.
-Ademas utilizaremos DTOs para transportar la informacion y modificarla al realizar las consultas con la base de datos de MongoDB.
+En este desafio modificaremos la entrega anterior para crear una API que funcione con graphQL mantiendo la estructura de la anterior entrega, solo que cambiando el ruteo.
+
+## GraphQL
+Utilizamos esta libreria para poder realizar consultas y mutaciones a nuestra base de datos mediante la implementacion de esquenmas y resolves que funcionan de una manera mas simplificada a la hora de utilizar nuestros controladores como tambien para poder chequear el funcionamiento correcto y lo que retorna mediante la IDE llamada graphiQL
 
 ## DAOs
 La utlizamos para heredar en cada tipo de clase todas las funciones nativas de la base de datos que sea seleccionada, tiene relacion directa con los methodos que se utilizan normalmente en para conectar directamente con la base de datos.
