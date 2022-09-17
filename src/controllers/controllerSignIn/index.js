@@ -1,22 +1,24 @@
-const passport = require("passport");
-const getSignIn = (req, res) => {
-  res.render("signIn.ejs", {
-    message: "Puedes iniciar sesión aquí",
-    error: false,
-  });
-};
-const getSignInError = (req, res) => {
-  res.render("signIn.ejs", {
-    message: "el usuario que buscas no existe, prueba registrandote",
-    error: true,
-  });
-};
-const postSignIn = passport.authenticate("signIn", {
-  successRedirect: "/store",
-  successMessage: "registro exitoso",
-  failureRedirect: "/signinerror",
-  failureMessage: "fallo en el inicio de sesion",
-  passReqToCallback: true,
-});
+const {
+  searchUserByEmail,
+  comparePassword,
+} = require("../../Repository/usersRepository");
 
-module.exports = { getSignIn, getSignInError, postSignIn };
+const postSignIn = async (input) => {
+  const password = input.password;
+  const email = input.email;
+  const user = await searchUserByEmail(email);
+  const statusPassword = await comparePassword(password, user.password);
+  console.log(user);
+  if (!user) {
+    console.log("usuario inexistente");
+    return false;
+  }
+  if (!statusPassword) {
+    console.log("contrasena incorrecta");
+    return false;
+  }
+
+  return user;
+};
+
+module.exports = postSignIn;

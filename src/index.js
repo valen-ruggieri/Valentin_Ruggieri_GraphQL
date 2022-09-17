@@ -19,7 +19,6 @@ if (cluster.isMaster && process.env.CLUSTER === "on") {
   const PORT =  process.env.PORT || 8080;
   const server = http.createServer(app);
   require("./config/configMongoDB");
-  require("./utils/passport/passport");
   server.listen(PORT, () => {
     logger.info(`Servidor listo en el puerto ${PORT} ✅`);
   });

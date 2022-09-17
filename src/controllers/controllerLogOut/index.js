@@ -3,11 +3,11 @@ const {
   deleteAccount,
 } = require("../../services/servicesLogOut");
 
-const logOut = async (req, res) => {
-  await redirectToHome(res);
+const logOut = async () => {
+  return await redirectToHome();
 };
-const deleteUser = async (req, res) => {
-  await deleteAccount(req,res);
+const deleteUser = async (idUser) => {
+  return await deleteAccount(idUser);
 };
 
 module.exports = { deleteUser, logOut };

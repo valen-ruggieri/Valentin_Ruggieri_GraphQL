@@ -1,4 +1,3 @@
-const sendToWsp = require("../../utils/twilio/twilio");
 const { sendMailTicket } = require("../../utils/nodeMailer/nodeMailer");
 const {
   searchCart,
@@ -49,7 +48,6 @@ const deleteAll = async (idUser) => {
 const buyAll = async (idUser) => {
   const { email, user, phone } = await searchUserById(idUser);
   const { products, precioTotal } = await searchCart(idUser);
-  sendToWsp(products, precioTotal, user, phone);
   return sendMailTicket(products, precioTotal, email, user);
 };
 

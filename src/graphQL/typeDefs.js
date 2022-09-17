@@ -2,6 +2,8 @@ const typeDefs = `
 type Query {
     showProducts: [Product]
     showCartByUserId(id:ID): Cart
+    showAccount(idUser:ID):User
+    logOut:String
 }
 type Mutation{
     addProduct(input:ProductInput): Product
@@ -11,6 +13,9 @@ type Mutation{
     deleteProductInCart(idUser:ID,idProduct:ID): Cart
     deleteCart(idUser:ID):Cart
     buyCart(idUser:ID): String
+    signIn(input:UserSignIn):User
+    deleteUser(idUser:ID):User
+    logIn(input:UserLogIn):User
 
 }
 type Product{
@@ -46,6 +51,31 @@ type ProductCart{
     img: String
     codigo: String
     cant:Int
+}
+type User{
+    user: String
+    email: String
+    password: String
+    userType: String
+    address: String
+    age: String
+    phone: String
+    image: String
+    cartId:ID
+}
+input UserSignIn{
+    email:String!
+    password:String!
+}
+input UserLogIn{
+    user: String
+    email: String
+    password: String
+    userType: String
+    address: String
+    age: String
+    phone: String
+    image: String
 }
 `
 module.exports=typeDefs

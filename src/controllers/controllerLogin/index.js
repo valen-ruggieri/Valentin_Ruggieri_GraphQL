@@ -1,30 +1,41 @@
-const passport = require("passport");
+const { createCart } = require("../../Repository/cartsRepository");
+const {
+  createUser,
+  searchUserByEmail,
+  encryptPassword,
+} = require("../../Repository/usersRepository");
+const { sendMailWelcome } = require("../../utils/nodeMailer/nodeMailer");
 
-const getLogInError = (req, res) => {
-  res.render("logIn.ejs", {
-    message: "el usuario que intentas crear ya existe, prueba iniciando sesion",
-    error: true,
-  });
+const postLogIn = async (input) => {
+  const { email, password } = input;
+  const exists = await searchUserByEmail(email);
+
+  if (!exists) {
+    const cartInit = {
+      precioTotal: 0,
+      products: [],
+    };
+    const cart = await createCart(cartInit);
+    const cartUID = cart._id;
+    const { user, userType, address, age, phone, image } = input;
+    const userLoged = await createUser({
+      user: user,
+      email: email,
+      password: await encryptPassword(password),
+      userType: userType,
+      address: address,
+      age: age,
+      phone: phone,
+      image: image,
+      cartId: cartUID,
+    });
+
+    sendMailWelcome(user, email, userType, address, age, phone);
+    return userLoged;
+  }
+  if (exists) {
+    return false;
+  }
 };
 
-const getLogIn = (req, res) => {
-  res.render("logIn.ejs", { message: "Puedes registrarte aquí", error: false });
-};
-
-const postLogIn = passport.authenticate("signUp", {
-  successRedirect: "/store",
-  successMessage: "registro exitoso",
-  failureRedirect: "/loginerror",
-  failureMessage: "fallo en el registro",
-  passReqToCallback: true,
-});
-
-const postLogInError = passport.authenticate("signUp", {
-  successRedirect: "/store",
-  successMessage: "registro exitoso",
-  failureRedirect: "/loginerror",
-  failureMessage: "fallo en el registro",
-  passReqToCallback: true,
-});
-
-module.exports = { getLogIn, getLogInError, postLogIn, postLogInError };
+module.exports = postLogIn;

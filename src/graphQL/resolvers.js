@@ -3,14 +3,19 @@ const {
   postAddProduct,
   postUpdateProduct,
   deleteProduct,
-} = require("../../controllers/controllerStore");
+} = require("../controllers/controllerStore");
 const {
   getCart,
   addproductInCart,
   deleteProductInCart,
   deleteAll,
   buyAll,
-} = require("../../controllers/controllerCart");
+} = require("../controllers/controllerCart");
+const getAccount = require("../controllers/controllerAccount");
+const postSignIn = require("../controllers/controllerSignIn");
+const { logOut, deleteUser } = require("../controllers/controllerLogOut");
+const postLogIn = require("../controllers/controllerLogin");
+
 const resolvers = {
   Query: {
     //> Products
@@ -22,6 +27,16 @@ const resolvers = {
     showCartByUserId: (_, { id }) => {
       return getCart(id);
     },
+    //> Account
+    showAccount: (_, { idUser }) => {
+      return getAccount(idUser);
+    },
+    //> /////////////////////////////////////////////
+    //> logOut
+    logOut: () => {
+      return logOut();
+    },
+    //> /////////////////////////////////////////////
   },
   Mutation: {
     //> Products
@@ -35,6 +50,7 @@ const resolvers = {
       return deleteProduct(id);
     },
     //> /////////////////////////////////////////////
+    //> Cart
     addProductInCart: (_, { idUser, idProduct }) => {
       return addproductInCart(idUser, idProduct);
     },
@@ -46,6 +62,21 @@ const resolvers = {
     },
     buyCart: (_, { idUser }) => {
       return buyAll(idUser);
+    },
+    //> /////////////////////////////////////////////
+    //> SignIn
+    signIn: (_, { input }) => {
+      return postSignIn(input);
+    },
+    //> /////////////////////////////////////////////
+    //> deleteUser
+    deleteUser: (_, { idUser }) => {
+      return deleteUser(idUser);
+    },
+    //> /////////////////////////////////////////////
+    //> logIn
+    logIn: (_, { input }) => {
+      return postLogIn(input);
     },
   },
 };

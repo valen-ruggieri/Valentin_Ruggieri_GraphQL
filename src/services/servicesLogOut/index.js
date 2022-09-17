@@ -7,16 +7,18 @@ async function redirectToHome(res) {
     setTimeout(async () => {
       await deleteSessionAll();
       logger.info("las sesiones fueron eliminadas correctamente");
-      res.redirect("/");
+      
     }, 800);
+    return "redirect to /home";
   } catch (error) {
     logger.error(error);
   }
 }
 
-async function deleteUser(req) {
+async function deleteUser(idUser) {
   try {
-    await deleteUserById(req.session.passport.user);
+    const user = await deleteUserById(idUser);
+    return user
   } catch (error) {
     logger.error(error);
   }
@@ -30,11 +32,12 @@ async function deleteSession() {
   }
 }
 
-async function deleteAccount(req, res) {
+async function deleteAccount(idUser) {
   try {
     await deleteSession();
-    await deleteUser(req);
-    res.redirect("/");
+    const user = await deleteUser(idUser);
+    return user
+   
   } catch (error) {
     logger.error(error);
   }
